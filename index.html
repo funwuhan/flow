@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Message</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .message {
+            position: absolute;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: float 20s linear infinite;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .message:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateX(100vw);
+            }
+            100% {
+                transform: translateX(-100vw);
+            }
+        }
+        @media (max-width: 768px) {
+            .float-nav {
+                top: auto;
+                bottom: 20px;
+                left: auto;
+                right: 20px;
+            }
+
+            .float-nav-toggle {
+                width: 40px;
+                height: 40px;
+            }
+
+            .float-nav-menu {
+                width: auto;
+                max-width: 100%;
+                padding: 10px;
+                background: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(10px);
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+            }
+
+            .float-nav-item {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                color: var(--text-color);
+                text-decoration: none;
+                transition: all 0.3s ease;
+                border-radius: 5px;
+                white-space: nowrap;
+            }
+
+            .float-nav-item:hover {
+                background: var(--bg-color);
+                transform: translateX(-5px);
+            }
+        }
+    </style>
+    <script src="js/components/floatNav.js"></script>
+</head>
+<body>
+    <div class="container" id="messageContainer"></div>
+
+    <script>
+        const messages = [
+            { text: "创建一个早晨的日常计划来提升生产力", size: 18, speed: 15, delay: 0 },
+            { text: "帮我写一个邀请邻居来烧烤的短信", size: 24, speed: 20, delay: 2 },
+            { text: "给我一些关于孩子艺术活动的想法", size: 16, speed: 18, delay: 4 },
+            { text: "帮我复习大学入学考试的词汇", size: 20, speed: 22, delay: 6 },
+            { text: "写一个安慰朋友的暖心消息", size: 22, speed: 17, delay: 8 },
+            { text: "测试我的古代文明知识", size: 18, speed: 19, delay: 10 },
+            { text: "设计一个有趣的编程游戏教学", size: 20, speed: 21, delay: 12 },
+            { text: "写一个关于刷牙鲨鱼超级英雄的故事", size: 16, speed: 16, delay: 14 }
+        ];
+
+        const container = document.getElementById('messageContainer');
+        const containerHeight = container.clientHeight;
+
+        messages.forEach((msg, index) => {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message';
+            messageElement.textContent = msg.text;
+            messageElement.style.fontSize = `${msg.size}px`;
+            messageElement.style.top = `${Math.random() * (containerHeight - 100)}px`;
+            messageElement.style.animationDuration = `${msg.speed}s`;
+            messageElement.style.animationDelay = `${msg.delay}s`;
+
+            container.appendChild(messageElement);
+
+            messageElement.addEventListener('click', () => {
+                messageElement.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    messageElement.style.transform = '';
+                }, 300);
+            });
+        });
+    </script>
+    <script>
+        new FloatNav();
+    </script>
+</body>
+</html>
